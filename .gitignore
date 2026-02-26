@@ -1,0 +1,9 @@
+# Python virtual environments
+.venv/
+
+# Generated PDF artifacts (tracked intentionally if desired)
+# ai-client-srs.pdf
+
+# Temporary/debug files
+.tmp-*.html
+mermaid-filter.err
