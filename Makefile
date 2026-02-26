@@ -24,7 +24,7 @@ lint: markdown-lint
 lint-all: markdown-lint lint-code-blocks
 
 pdf:
-	pandoc $(SRC) -o $(PDF) --pdf-engine=weasyprint --filter mermaid-filter
+	pandoc $(SRC) -o $(PDF) --pdf-engine=weasyprint --filter mermaid-filter --template scripts/weasyprint.template.html
 
 clean:
 	rm -f $(PDF)
