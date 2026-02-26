@@ -218,14 +218,16 @@ Critically, the cloud-hosted model (e.g., GPT-4, Claude) acts as its own planner
 
 ### Dependencies (Internal Engineering)
 
-| Dependency | Owner | Status | Risk if Delayed |
-|------------|-------|--------|-----------------|
-| Configuration schema design | Extension Team | 🟡 In Progress | Cannot finalize settings documentation |
-| VS Code settings integration | VS Code Team | 🟢 Complete | Basic extension settings work |
-| Eclipse preferences integration | Eclipse Team | 🟡 In Progress | Eclipse users cannot configure AI |
-| Credential storage via SecretStorage | Platform Team | 🟢 Complete (v0.7) | Credentials stored in OS-level secure storage via VS Code API |
-| HTTP client with proxy support | Platform Team | 🟢 Complete | Corporate proxy environments blocked |
-| Central config profile system | Platform Team | 🔴 Not Started (v1.1) | No managed configuration option |
+The system requires the following internal platform capabilities:
+
+| Component | Requirement | Criticality | Related Requirements |
+|-----------|-------------|-------------|---------------------|
+| **Configuration Schema** | MUST support JSON schema validation for settings with IDE-native integration | MUST have (v1.0) | REQ-CFG-001 to REQ-CFG-006 |
+| **VS Code Settings Integration** | MUST use VS Code's native settings API (`vscode.workspace.getConfiguration`) | MUST have (v1.0) | REQ-CFG-001, REQ-UX-001 |
+| **Eclipse Preferences Integration** | MUST use Eclipse Preferences API for configuration persistence | MUST have (v1.0) | REQ-CFG-001 |
+| **Credential Storage (SecretStorage)** | MUST use VS Code `SecretStorage` API for secure key persistence with OS keychain backing | MUST have (v1.0) | REQ-CRED-001 to REQ-CRED-011 |
+| **HTTP Client with Proxy Support** | MUST support HTTP_PROXY/HTTPS_PROXY environment variables and IDE proxy settings | MUST have (v1.0) | REQ-API-001, REQ-ENT-004 |
+| **Central Config Profile System** | SHOULD support managed configuration profiles for enterprise deployment | SHOULD have (v1.1) | REQ-ENT-001, REQ-ENT-002 |
 
 ### Customer-Side Prerequisites
 
