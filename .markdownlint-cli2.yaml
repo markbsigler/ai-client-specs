@@ -1,0 +1,17 @@
+config:
+  default: true
+  MD013: false # line-length
+  MD033: false # inline HTML
+  MD036: false # emphasis used as heading
+  MD060: false # table pipe style
+  MD007: false # unordered list indentation
+  MD031: false # blanks around fences
+  MD032: false # blanks around lists
+  MD004: false # unordered list style
+  MD040: false # fenced code language required
+  MD055: false # table pipe style
+globs:
+  - "**/*.md"
+ignores:
+  - "**/.venv/**"
+  - "**/node_modules/**"

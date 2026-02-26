@@ -457,18 +457,13 @@ The `type` field in the provider configuration controls provider-specific behavi
 Configuration can be set at multiple levels, with higher levels overriding lower:
 
 ```mermaid
-block-beta
-    columns 1
-    block:L4["4 · User Override (if permitted) — ~/.vscode/settings.json — ← Highest priority"]
-    end
-    block:L3["3 · Workspace Settings — .vscode/settings.json in project"]
-    end
-    block:L2["2 · Managed Configuration Profile (v1.1) — Deployed by IT via GPO / MDM"]
-    end
-    block:L1["1 · Extension Defaults — Built into extension — ← Lowest priority"]
-    end
+flowchart TB
+  L4["4 · User Override (if permitted) — ~/.vscode/settings.json — Highest priority"]
+  L3["3 · Workspace Settings — .vscode/settings.json in project"]
+  L2["2 · Managed Configuration Profile (v1.1) — Deployed by IT via GPO / MDM"]
+  L1["1 · Extension Defaults — Built into extension — Lowest priority"]
 
-    L4 --> L3 --> L2 --> L1
+  L4 --> L3 --> L2 --> L1
 ```
 
 ### Optional: Enterprise AI Gateway
