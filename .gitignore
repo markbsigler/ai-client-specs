@@ -1,6 +1,15 @@
 # Python virtual environments
 .venv/
 
+# Python tooling caches and coverage
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+__pycache__/
+
 # Generated PDF artifacts (tracked intentionally if desired)
 # ai-client-srs.pdf
 

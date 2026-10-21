@@ -1,22 +1,29 @@
+#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["ruff>=0.15,<1"]
+# ///
+"""Lint Python fenced code blocks in a Markdown file with Ruff."""
+
 from __future__ import annotations
 
 import argparse
 import re
 import subprocess
 import sys
+from collections.abc import Sequence
 from pathlib import Path
 
-
 FENCE_PATTERN = re.compile(
-    r"```(?P<lang>python|py|py3)\s*\n(?P<code>.*?)\n```",
+    r"```(?P<lang>python|py|py3)[ \t]*\n(?P<code>.*?)```",
     re.DOTALL | re.IGNORECASE,
 )
 
 
 def extract_python_blocks(markdown_text: str) -> str:
+    """Return all Python fenced code blocks as one lintable source string."""
     blocks: list[str] = []
-    blocks_iter = FENCE_PATTERN.finditer(markdown_text)
-    for idx, match in enumerate(blocks_iter, start=1):
+    for idx, match in enumerate(FENCE_PATTERN.finditer(markdown_text), start=1):
         code = match.group("code").strip()
         if not code:
             continue
@@ -24,15 +31,13 @@ def extract_python_blocks(markdown_text: str) -> str:
     return "\n".join(blocks)
 
 
-def main() -> int:
+def main(argv: Sequence[str] | None = None) -> int:
+    """Lint the Python blocks in one Markdown file and return an exit code."""
     parser = argparse.ArgumentParser(
-        description=(
-            "Lint Python fenced code blocks in a Markdown file "
-            "using Ruff."
-        )
+        description=("Lint Python fenced code blocks in a Markdown file using Ruff.")
     )
     parser.add_argument("markdown_file", type=Path)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     if not args.markdown_file.exists():
         print(f"File not found: {args.markdown_file}", file=sys.stderr)
@@ -42,14 +47,13 @@ def main() -> int:
     python_source = extract_python_blocks(markdown_text)
 
     if not python_source.strip():
-        message = (
-            f"No Python fenced code blocks found in {args.markdown_file}; "
-            "nothing to lint."
-        )
+        message = f"No Python fenced code blocks found in {args.markdown_file}; nothing to lint."
         print(message)
         return 0
 
     command = [
+        sys.executable,
+        "-m",
         "ruff",
         "check",
         "--stdin-filename",

@@ -1,6 +1,5 @@
-VENV := .venv
-PYTHON := $(VENV)/bin/python
-PIP := $(VENV)/bin/pip
+UV ?= uv
+PYTHON := $(UV) run python
 
 # Master index file
 MASTER := ai-client-srs.md
@@ -21,26 +20,45 @@ DOCS := docs/01-introduction.md \
 
 PDF := ai-client-srs.pdf
 
-.PHONY: venv install markdown-lint lint-code-blocks lint lint-all pdf clean
+.PHONY: install sync fmt lint-python format-check typecheck test check \
+        markdown-lint lint-code-blocks lint lint-all pdf clean
 
-venv:
-	@test -d $(VENV) || python3 -m venv $(VENV)
+install: ## Create the environment and install locked dependencies
+	$(UV) sync --locked
 
-install: venv
-	$(PIP) install --upgrade pip ruff
+sync: ## Sync the environment with uv.lock
+	$(UV) sync --locked
 
-markdown-lint:
+fmt: ## Auto-fix and format the Python tooling
+	$(UV) run ruff check --fix scripts tests
+	$(UV) run ruff format scripts tests
+
+lint-python: ## Lint the Python tooling
+	$(UV) run ruff check scripts tests
+
+format-check: ## Check Python formatting
+	$(UV) run ruff format --check scripts tests
+
+typecheck: ## Type-check the Python tooling (strict)
+	$(UV) run mypy
+
+test: ## Run the Python test suite with coverage
+	$(UV) run pytest
+
+check: lint-python format-check typecheck test ## Run all Python checks
+
+markdown-lint: ## Auto-fix Markdown formatting
 	npx --yes markdownlint-cli2 --fix "**/*.md"
 
-lint-code-blocks: install
-	$(PYTHON) scripts/lint_markdown_with_ruff.py docs/api-patterns.md
+lint-code-blocks: ## Lint Python fenced code blocks with Ruff
+	$(UV) run scripts/lint_markdown_with_ruff.py docs/api-patterns.md
 
-lint: markdown-lint
+lint: markdown-lint ## Run the Markdown linter
 
-lint-all: markdown-lint lint-code-blocks
+lint-all: markdown-lint lint-code-blocks ## Run Markdown and code-block linters
 
-pdf:
+pdf: ## Build the SRS PDF
 	pandoc $(MASTER) $(DOCS) -o $(PDF) --pdf-engine=weasyprint --filter mermaid-filter --template scripts/weasyprint.template.html
 
-clean:
+clean: ## Remove generated files
 	rm -f $(PDF)

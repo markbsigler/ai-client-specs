@@ -92,6 +92,15 @@ Version 0.17 introduced domain-prefixed requirement IDs per IEEE 29148 conventio
 
 **Migration Cross-Reference**: See [Appendix A](docs/appendix-a-traceability-matrix.md) for complete mapping of old REQ-XX IDs to new domain-prefixed IDs.
 
+## Development Setup
+
+The Python tooling (Ruff, mypy, pytest) is managed with [uv](https://docs.astral.sh/uv/) and pinned in `uv.lock`:
+
+```bash
+uv sync --locked   # create .venv and install locked dev dependencies
+make check         # lint + format check + typecheck + test
+```
+
 ## Build Commands
 
 ```bash
@@ -103,6 +112,9 @@ make pdf
 
 # Run all linters (markdown + Python code blocks)
 make lint-all
+
+# Run the Python linter, formatter check, type checker, and tests
+make check
 
 # Clean generated files
 make clean
