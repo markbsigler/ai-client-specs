@@ -1,0 +1,32 @@
+.github/workflows/ci.yml
+  h_85ea3c1869612c 1-40
+.gitignore
+  h_85ea3c1869612c 4-12
+.pre-commit-config.yaml
+  h_85ea3c1869612c 1-38
+.python-version
+  h_85ea3c1869612c 1
+Makefile
+  h_85ea3c1869612c 1-2,23-24,26-27,29-30,32-50,53-54,56,58,60,63-64
+README.md
+  h_85ea3c1869612c 95-103,116-118
+pyproject.toml
+  h_85ea3c1869612c 1-106
+scripts/lint_markdown_with_ruff.py
+  h_85ea3c1869612c 1-7,14,18,24,26,34-35,37,40,50,55-56
+tests/test_lint_markdown_with_ruff.py
+  h_85ea3c1869612c 1-142
+uv.lock
+  h_85ea3c1869612c 1-669
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f1da8948145ce9db47358527ec330eb2f70b2cf8",
+  "prompts": {},
+  "humans": {
+    "h_85ea3c1869612c": {
+      "author": "Mark B. Sigler <markbsigler@gmail.com>"
+    }
+  }
+}
